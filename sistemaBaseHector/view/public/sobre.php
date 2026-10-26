@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#f2eee6">
+    <meta name="description" content="Una invitación muy especial para celebrar la boda de Jefferson y Erika, el 05 de diciembre de 2026.">
+    <title>Una invitación especial | Jefferson &amp; Erika</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- La invitación existente se mantiene en su ruta original. -->
+    <link rel="prefetch" href="?view=invitacion">
+    <style>
+        :root {
+            --navy:#15344c;
+            --navy-deep:#102538;
+            --gold:#bd9158;
+            --gold-dark:#86603b;
+            --cream:#f7f3ea;
+            --brown:#6f5f4f;
+            --ease:cubic-bezier(.22,1,.36,1);
+        }
+        *,*::before,*::after { box-sizing:border-box; }
+        html { min-height:100%; }
+        body {
+            margin:0;
+            min-width:280px;
+            min-height:100vh;
+            min-height:100dvh;
+            overflow-x:hidden;
+            display:grid;
+            place-items:center;
+            color:var(--navy);
+            background:
+                radial-gradient(ellipse at 10% 9%,rgba(231,203,160,.48),transparent 42%),
+                radial-gradient(ellipse at 91% 90%,rgba(149,154,125,.2),transparent 45%),
+                linear-gradient(135deg,#e6ded1,#f4f0e9 49%,#e8decf);
+            font-family:'DM Sans',Arial,sans-serif;
+            -webkit-font-smoothing:antialiased;
+        }
+        a { -webkit-tap-highlight-color:transparent; }
+        .screen {
+            position:relative;
+            isolation:isolate;
+            display:grid;
+            place-items:center;
+            width:100%;
+            min-height:100vh;
+            min-height:100dvh;
+            padding:clamp(22px,5vh,52px) 17px;
+            overflow:hidden;
+            opacity:1;
+            transition:opacity .86s ease,filter .86s ease;
+        }
+        .screen::before {
+            content:'';position:absolute;inset:17px;
+            border:1px solid rgba(182,143,88,.34);
+            pointer-events:none;z-index:2;
+        }
+        .screen::after {
+            content:'';position:absolute;inset:23px;
+            border:1px solid rgba(255,255,255,.63);
+            pointer-events:none;z-index:2;
+        }
+        .paper {
+            position:absolute;inset:0;z-index:-2;
+            background-color:rgba(250,248,242,.55);
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='128' height='128' opacity='.08' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+        .halo {
+            width:min(95vw,700px);height:min(95vw,700px);position:absolute;z-index:-1;
+            top:50%;left:50%;transform:translate(-50%,-48%);
+            border:1px solid rgba(178,138,82,.15);border-radius:50%;
+            box-shadow:0 0 0 52px rgba(178,138,82,.025),0 0 0 103px rgba(178,138,82,.022);
+            pointer-events:none;
+        }
+        .halo::after {
+            content:'';position:absolute;inset:13%;border-radius:50%;
+            background:radial-gradient(circle,rgba(255,250,234,.94),rgba(255,246,221,.07) 64%,transparent 78%);
+        }
+        .content {
+            position:relative;z-index:3;
+            width:min(100%,600px);
+            display:flex;flex-direction:column;align-items:center;
+            text-align:center;
+        }
+        .mini-top {
+            font-size:10px;font-weight:700;letter-spacing:.33em;text-transform:uppercase;
+            color:var(--gold-dark);margin:0 0 11px;
+        }
+        .names {
+            font:400 clamp(54px,12vw,81px)/1 'Alex Brush','Brush Script MT',cursive;
+            color:var(--navy);margin:0;
+            text-shadow:0 2px 0 rgba(255,255,255,.75);
+        }
+        .overline {
+            display:flex;align-items:center;gap:14px;justify-content:center;
+            margin:7px 0 clamp(27px,5vh,44px);color:var(--gold);
+        }
+        .overline::before,.overline::after {
+            content:'';height:1px;width:40px;background:linear-gradient(90deg,transparent,var(--gold));
+        }
+        .overline::after{transform:rotate(180deg)}
+        .overline span { font-size:12px; }
+        .envelope-stage {
+            position:relative;
+            width:min(84vw,460px);
+            /* Reserva espacio para el sobre, sea vertical u horizontal. */
+            height:clamp(210px,43vh,400px);
+            display:grid;place-items:center;
+            perspective:1000px;
+            margin:0 auto;
+        }
+        .envelope-stage::before {
+            content:'';position:absolute;left:7%;right:7%;bottom:5%;height:18%;
+            border-radius:50%;z-index:0;filter:blur(17px);
+            background:rgba(41,29,16,.23);transform:scaleX(.8);
+            transition:transform 1.1s var(--ease),opacity 1s ease;
+        }
+        .image-link {
+            position:absolute;inset:0;z-index:4;
+            display:grid;place-items:center;
+            text-decoration:none;
+            cursor:pointer;
+            transform-origin:50% 62%;
+            transition:transform 1.15s var(--ease),opacity 1s ease,filter 1s ease;
+            will-change:transform,opacity;
+        }
+        .image-link:focus-visible,.open-link:focus-visible {
+            outline:3px solid var(--gold);outline-offset:7px;
+        }
+        .envelope-image {
+            position:relative;z-index:2;
+            display:block;max-width:100%;max-height:100%;width:auto;height:auto;
+            opacity:0;
+            object-fit:contain;
+            filter:drop-shadow(0 17px 12px rgba(65,46,27,.18)) drop-shadow(0 24px 32px rgba(61,45,26,.22));
+            transition:filter .5s ease,transform .5s var(--ease);
+            user-select:none;-webkit-user-drag:none;
+        }
+        @media (hover:hover) and (pointer:fine) {
+            .image-link:hover .envelope-image {
+                transform:translateY(-9px) scale(1.025);
+                filter:drop-shadow(0 20px 15px rgba(65,46,27,.19)) drop-shadow(0 30px 37px rgba(61,45,26,.29));
+            }
+        }
+        .fallback-sobre {
+            position:absolute;z-index:1;width:min(100%,365px);aspect-ratio:1.46;display:block;
+            background:linear-gradient(147deg,#17405c,#0b2338);border:1px solid rgba(233,200,141,.65);
+            box-shadow:0 20px 36px rgba(17,34,42,.26);overflow:hidden;
+        }
+        .fallback-sobre::before,.fallback-sobre::after {
+            content:'';position:absolute;inset:0;pointer-events:none;
+        }
+        .fallback-sobre::before {
+            background:linear-gradient(145deg,transparent 49.5%,rgba(229,197,143,.6) 50%,transparent 50.5%),
+            linear-gradient(215deg,transparent 49.5%,rgba(229,197,143,.65) 50%,transparent 50.5%);
+        }
+        .fallback-sobre::after {
+            background:linear-gradient(23deg,transparent 49%,rgba(225,195,143,.25) 50%,transparent 51%),
+            linear-gradient(-23deg,transparent 49%,rgba(225,195,143,.25) 50%,transparent 51%);
+        }
+        .fallback-sobre .seal-mark {
+            position:absolute;left:50%;top:53%;transform:translate(-50%,-50%);
+            display:grid;place-items:center;width:65px;height:65px;border-radius:50%;
+            background:radial-gradient(circle at 27% 20%,#f0d4a3,#bc8950 45%,#80522b);
+            box-shadow:0 7px 11px rgba(0,0,0,.3),inset 1px 2px 3px rgba(255,255,255,.4);
+            color:#fff;font:500 22px 'Cormorant Garamond',Georgia,serif;letter-spacing:-.05em;
+            border:3px double rgba(255,245,219,.48);
+        }
+        .envelope-image.ready { opacity:1; }
+        .envelope-image.missing { display:none; }
+        .inside-note {
+            position:absolute;left:50%;top:50%;z-index:1;
+            width:min(87%,354px);min-height:215px;padding:27px 15px 24px;
+            color:var(--navy);
+            display:flex;flex-direction:column;justify-content:center;align-items:center;
+            border:1px solid rgba(170,127,70,.38);
+            background:linear-gradient(155deg,#fffcf6,#f1e7d5);
+            box-shadow:0 13px 21px rgba(47,40,31,.16),inset 0 0 0 7px rgba(255,255,255,.32);
+            opacity:0;
+            transform:translate(-50%,-10%) scale(.9);
+            transition:transform 1.25s var(--ease),opacity .7s ease;
+            pointer-events:none;
+        }
+        .inside-note::before { content:'';position:absolute;inset:9px;border:1px solid rgba(188,145,88,.31); }
+        .inside-note p { position:relative;z-index:1;margin:0; }
+        .note-kicker { color:var(--gold-dark);font-weight:700;font-size:9px;letter-spacing:.22em;text-transform:uppercase; }
+        .note-names { font:500 35px/1.1 'Cormorant Garamond',Georgia,serif;margin:12px 0 6px!important; }
+        .note-date { font-size:10px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;margin-top:12px!important; }
+        .note-ornament { color:var(--gold);font-size:17px; }
+        .open-link {
+            margin:clamp(24px,4vh,36px) 0 0;
+            padding:14px 23px;
+            text-decoration:none;text-transform:uppercase;letter-spacing:.18em;
+            color:#fff;font-size:10px;font-weight:700;
+            border:1px solid #c19b69;
+            background:linear-gradient(125deg,#25485f,#112d43);
+            box-shadow:0 8px 17px rgba(22,44,58,.16);
+            transition:transform .25s,box-shadow .25s,opacity .7s;
+        }
+        .open-link:hover { transform:translateY(-3px);box-shadow:0 13px 19px rgba(22,44,58,.23); }
+        .guidance { margin:18px 0 0;color:#867360;letter-spacing:.05em;font:italic 500 19px/1.3 'Cormorant Garamond',Georgia,serif; }
+        .date-footer { font:700 9px 'DM Sans',Arial,sans-serif;letter-spacing:.23em;color:#8e7656;text-transform:uppercase;margin:30px 0 0; }
+        .dust-layer { position:absolute;inset:0;overflow:hidden;z-index:1;pointer-events:none; }
+        .dust {
+            position:absolute;width:3px;height:3px;border-radius:50%;
+            background:var(--gold);opacity:.28;box-shadow:0 0 8px rgba(199,159,95,.5);
+            animation:float-dust var(--duration,14s) linear infinite;
+        }
+        @keyframes float-dust { 0%{transform:translateY(18px);opacity:0} 25%{opacity:.38} 85%{opacity:.2} 100%{transform:translateY(-95vh);opacity:0} }
+        .light-burst {
+            position:absolute;left:50%;top:50%;z-index:0;pointer-events:none;
+            width:100%;height:100%;border-radius:50%;
+            background:radial-gradient(circle,rgba(255,236,184,.8),rgba(234,192,111,.12) 46%,transparent 67%);
+            transform:translate(-50%,-50%) scale(.38);opacity:0;
+            transition:transform 1.35s var(--ease),opacity .8s ease;
+        }
+        .screen.is-opening .image-link {
+            transform:translateY(38px) rotate(-3deg) scale(.91);
+            opacity:0;filter:blur(5px);
+            pointer-events:none;
+        }
+        .screen.is-opening .envelope-stage::before {transform:scaleX(.5);opacity:0;}
+        .screen.is-opening .inside-note {opacity:1;transform:translate(-50%,-52%) scale(1.045);}
+        .screen.is-opening .light-burst {opacity:1;transform:translate(-50%,-50%) scale(1.5);}
+        .screen.is-opening .open-link,.screen.is-opening .guidance {opacity:0;pointer-events:none;}
+        .screen.is-exiting {opacity:0;filter:blur(7px);pointer-events:none;}
+        .status { position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden;white-space:nowrap; }
+        @media (max-height:660px) {
+            .screen { padding:23px 14px; }
+            .overline { margin-bottom:12px; }
+            .envelope-stage { height:clamp(165px,38vh,280px); }
+            .inside-note { min-height:155px; }
+            .date-footer { margin-top:17px; }
+            .open-link { margin-top:13px;padding:11px 20px; }
+            .guidance { margin-top:9px; }
+        }
+        @media (max-width:360px) {
+            .names { font-size:56px; }
+            .mini-top { font-size:9px; }
+            .inside-note { min-height:175px; }
+            .note-names { font-size:30px; }
+            .screen::before { inset:10px; }
+            .screen::after { inset:15px; }
+        }
+        @media (prefers-reduced-motion:reduce) {
+            *,*::before,*::after { animation:none!important;scroll-behavior:auto!important;transition-duration:.01ms!important; }
+        }
+    </style>
+    <noscript><style>.envelope-image{opacity:1!important}</style></noscript>
+</head>
+<body>
+    <main class="screen" id="pantalla-entrada">
+        <div class="paper" aria-hidden="true"></div>
+        <div class="halo" aria-hidden="true"></div>
+        <div class="dust-layer" id="dust-layer" aria-hidden="true"></div>
+
+        <div class="content">
+            <p class="mini-top">Tenemos algo muy especial para ti</p>
+            <h1 class="names">Jefferson &amp; Erika</h1>
+            <div class="overline" aria-hidden="true"><span>✦</span></div>
+
+            <div class="envelope-stage" id="envelope-stage">
+                <div class="light-burst" aria-hidden="true"></div>
+                <div class="inside-note" aria-hidden="true">
+                    <p class="note-kicker">Nuestra boda</p>
+                    <p class="note-names">Jefferson &amp; Erika</p>
+                    <p class="note-ornament">✦</p>
+                    <p class="note-date">Sábado · 05 de diciembre · 2026</p>
+                </div>
+                <!-- FOTO ORIGINAL DEL SOBRE EN EL PROYECTO -->
+                <a class="image-link open-invite" id="abrir-sobre" href="?view=invitacion" aria-label="Abrir invitación de boda de Jefferson y Erika">
+                    <img class="envelope-image" id="imagen-sobre" src="view/assets/img/sobre.png"
+                         alt="Sobre de boda decorativo de Jefferson y Erika; pulsa para abrir la invitación"
+                         loading="eager" decoding="async" fetchpriority="high" draggable="false">
+                    <!-- Solo se muestra si la imagen sobre.png NO se encuentra en la ruta. -->
+                    <span class="fallback-sobre" id="sobre-respaldo" aria-hidden="true"><span class="seal-mark">J&amp;E</span></span>
+                </a>
+            </div>
+
+            <a class="open-link open-invite" href="?view=invitacion" id="abrir-boton">✦ &nbsp; Abrir nuestra invitación &nbsp; ✦</a>
+            <p class="guidance">Toca el sobre para descubrir nuestra historia</p>
+            <p class="date-footer">05 · Diciembre · 2026</p>
+        </div>
+        <p class="status" role="status" aria-live="polite" id="estado-apertura"></p>
+    </main>
+
+    <script>
+        (() => {
+            'use strict';
+            const invitationURL = '?view=invitacion'; // Ruta original del proyecto MVC.
+            const screen = document.getElementById('pantalla-entrada');
+            const links = document.querySelectorAll('.open-invite');
+            const envelope = document.getElementById('imagen-sobre');
+            const fallback = document.getElementById('sobre-respaldo');
+            const status = document.getElementById('estado-apertura');
+            const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+            let opening = false;
+
+            // Rutas relativas compatibles con app en raíz y con un punto de entrada en public/.
+            const imageSources = [
+                'view/assets/img/sobre.png',
+                '../view/assets/img/sobre.png'
+            ];
+            let imageIndex = 0;
+            envelope.addEventListener('load', () => {
+                envelope.classList.add('ready');
+                fallback.style.display = 'none';
+            });
+            envelope.addEventListener('error', () => {
+                imageIndex += 1;
+                if (imageIndex < imageSources.length) {
+                    envelope.src = imageSources[imageIndex];
+                } else {
+                    envelope.classList.add('missing');
+                    // La tarjeta de respaldo permanece visible y nunca muestra el icono de imagen rota.
+                    console.warn('No se encontró sobre.png. Revisa view/assets/img/sobre.png y la ruta URL del controlador.');
+                }
+            });
+
+            function abrirSobre(event) {
+                if (event) event.preventDefault();
+                if (opening) return;
+                opening = true;
+                status.textContent = 'Abriendo la invitación de Jefferson y Erika';
+                if (reduceMotion) {
+                    window.location.assign(invitationURL);
+                    return;
+                }
+                screen.classList.add('is-opening');
+                // Primero emerge la tarjeta, después todo se desvanece.
+                window.setTimeout(() => screen.classList.add('is-exiting'), 1250);
+                window.setTimeout(() => window.location.assign(invitationURL), 2020);
+            }
+            links.forEach(link => link.addEventListener('click', abrirSobre));
+
+            // Si regresan desde la invitación, el sobre puede abrirse de nuevo.
+            window.addEventListener('pageshow', event => {
+                if (event.persisted) {
+                    opening = false;
+                    screen.classList.remove('is-opening', 'is-exiting');
+                    status.textContent = '';
+                }
+            });
+
+            if (!reduceMotion) {
+                const dust = document.getElementById('dust-layer');
+                for (let index = 0; index < 12; index++) {
+                    const dot = document.createElement('span');
+                    dot.className = 'dust';
+                    dot.style.left = ((index * 79 + 13) % 97) + '%';
+                    dot.style.top = ((index * 59 + 9) % 87) + '%';
+                    dot.style.setProperty('--duration', (13 + (index % 7) * 2) + 's');
+                    dot.style.animationDelay = (-index * 1.93) + 's';
+                    dust.appendChild(dot);
+                }
+            }
+        })();
+    </script>
+</body>
+</html>
